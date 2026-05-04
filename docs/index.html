@@ -17,7 +17,21 @@
             color: #1d1d1f;
             display: flex;
         }
+        /* Estilo para los videoclips */
+        .video-container {
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden; /* Corta las esquinas del video para que sean redondeadas */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #000;
+        }
 
+        video {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
         /* sidebar escritorio */
         .sidebar {
             width: 260px;
@@ -169,6 +183,12 @@
             • Enter meet name<br>
             • Enter location<br>
             • Set date and time
+        </div>
+              <div class="video-container">
+            <video autoplay loop muted playsinline>
+                <source src="videos/create-meet-tutorial.mp4" type="video/mp4">
+                Tu navegador no soporta el video.
+            </video>
         </div>
          <div class="tip">
             Note: The meet name is also used to generate the public results link.

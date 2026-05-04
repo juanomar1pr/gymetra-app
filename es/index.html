@@ -23,20 +23,24 @@
       color: var(--apple-black);
       -webkit-font-smoothing: antialiased;
     }
-/* Estilo para el botón de Apple Books */
-.apple-books-badge {
-  display: inline-block;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.book-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 50px;
 }
 
-.apple-books-badge:hover {
-  transform: scale(1.05);
+.book-cover-img {
+  width: 220px; /* Tamaño ideal para resaltar la ilustración */
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15); /* Sombra profunda estilo Apple */
+  transition: transform 0.4s ease;
 }
 
-.book-section {
-  background: linear-gradient(180deg, #ffffff 0%, #f5f5f7 100%);
-  text-align: center;
-  padding: 100px 20px;
+.book-cover-img:hover {
+  transform: translateY(-10px); /* Efecto de levitación al pasar el mouse */
 }
 
     .hero {
@@ -344,19 +348,27 @@
       <a href="/es/docs/index.html" class="section-p">Documentación</a>
     </section>
   </div>
- <section class="book-section">
+    <section class="book-section" style="padding: 120px 0; background-color: #ffffff; text-align: center;">
       <div class="content-wrapper">
-        <span class="section-label">Para los más pequeños</span>
-        <h2>Una historia para compartir.</h2>
-        <p class="section-p" style="margin: 0 auto 40px; max-width: 700px;">
-          Descubre nuestro libro infantil en <span class="highlight">Apple Books</span>. Una aventura diseñada para inspirar a los futuros atletas y disfrutar de un momento especial en familia después del entrenamiento.
+        <span class="section-label">Lectura en familia</span>
+        <h2>Una historia para soñar en grande.</h2>
+        <p class="section-p" style="margin: 0 auto; max-width: 750px;">
+          Lleva la magia de la gimnasia más allá del gimnasio con nuestro cuento infantil. Perfecto para inspirar a los pequeños atletas antes de dormir.
         </p>
-        
-        <a href="https://books.apple.com/us/book/id6766004553?itsct=books_box_badge&itscg=30200" class="apple-books-badge">
-          <img src="https://tools.applemediaservices.com/api/badges/get-it-on-apple-books/badge/es-es?size=250x83" 
-               alt="Consíguelo en Apple Books" 
-               style="height: 66px; width: auto;">
-        </a>
+
+        <div class="book-display">
+          <a href="https://books.apple.com/us/book/id6766004553">
+            <img src="https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/4e/71/6a/4e716a5a-6b8a-930c-2646-7c98e2194680/cover.jpg/400x600bf.png" 
+                 alt="Portada del libro infantil Gymetra" 
+                 class="book-cover-img">
+          </a>
+
+          <a href="https://books.apple.com/us/book/id6766004553?itsct=books_box_badge&itscg=30200" class="apple-books-badge">
+            <img src="https://tools.applemediaservices.com/api/badges/get-it-on-apple-books/badge/es-es?size=250x83" 
+                 alt="Consíguelo en Apple Books" 
+                 style="height: 58px; width: auto;">
+          </a>
+        </div>
       </div>
     </section>
   <footer>

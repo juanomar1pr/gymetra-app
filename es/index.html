@@ -23,7 +23,26 @@
       color: var(--apple-black);
       -webkit-font-smoothing: antialiased;
     }
+/* Estilo para el botón de Apple Books */
+.apple-books-badge {
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 13px;
+  width: 250px;
+  height: 83px;
+  transition: transform 0.3s ease;
+}
 
+.apple-books-badge:hover {
+  transform: scale(1.02);
+}
+
+.apple-books-badge img {
+  border-radius: 13px;
+  width: 250px;
+  height: 83px;
+  object-fit: contain;
+}
     .content-wrapper {
       max-width: 980px;
       margin: 0 auto;
@@ -335,7 +354,17 @@
       <a href="/es/docs/index.html" class="section-p">Documentación</a>
     </section>
   </div>
-
+   <section class="section" style="text-align: center; background-color: #fafafa;">
+      <span class="section-label">Lectura recomendada</span>
+      <h2>Aprende más sobre el sistema.</h2>
+      <p class="section-p" style="margin: 0 auto 30px;">
+        Consigue la guía oficial de Gymetra en Apple Books.
+      </p>
+      
+      <a href="https://books.apple.com/us/book/id6766004553?itsct=books_box_badge&itscg=30200" class="apple-books-badge">
+        <img src="https://tools.applemediaservices.com/api/badges/get-it-on-apple-books/badge/es-es?size=250x83&releaseDate=1738713600" alt="Get it on Apple Books">
+      </a>
+    </section>
   <footer>
     Copyright &copy; 2026 Gymetra Studio. Todos los derechos reservados.
   </footer>

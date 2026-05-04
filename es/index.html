@@ -453,15 +453,8 @@
           href="https://books.apple.com/us/book/id6766004553"
           rel="noopener noreferrer"
         >
-          <img
-            src="https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/4e/71/6a/4e716a5a-6b8a-930c-2646-7c98e2194680/cover.jpg/400x600bf.png"
-            alt="Portada del libro infantil Gymetra"
-            class="book-cover-img"
-            width="400"
-            height="600"
-            loading="lazy"
-            decoding="async"
-          />
+      <img src="/es/images/gimnasia-amigos-animales-cover.jpg" id="book-cover" alt="Portada del libro infantil Gymetra" class="book-cover-img" width="400" height="600" loading="lazy" decoding="async" />
+
         </a>
       </div>
 
@@ -501,6 +494,22 @@
       <button class="qr-close" id="closeQrEs">Cerrar</button>
     </div>
   </div>
+<script>
+(function () {
+  var img = document.getElementById("book-cover");
+  if (!img) return;
+  var orig = img.getAttribute("src");
+  fetch("https://itunes.apple.com/lookup?id=6766004553&entity=ebook")
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      var u = j.results && j.results[0] && j.results[0].artworkUrl100;
+      if (!u) return;
+      var hi = u.replace(/100x100bb\.jpg$/i, "400x600bb.jpg");
+      img.src = hi;
+    })
+    .catch(function () { /* deja orig */ });
+})();
+</script>
 
 <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
 <script>

@@ -471,10 +471,17 @@
             class="apple-books-badge"
             rel="noopener noreferrer"
           >
-            <img
-              src="https://tools.applemediaservices.com/api/badges/get-it-on-apple-books/badge/es-es?size=250x83"
-              alt="Consíguelo en Apple Books"
-            />
+          <img
+  id="book-cover"
+  src="https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/39/c7/7a/39c77a33-ebec-114e-416d-8b97890d0eee/8a1b5711-b866-4895-8c74-fe90cccbf3cb_cover_image.jpg/400x600bb.jpg"
+  alt="Portada del libro infantil Gymetra"
+  class="book-cover-img"
+  width="400"
+  height="600"
+  loading="lazy"
+  decoding="async"
+  referrerpolicy="no-referrer"
+/>
           </a>
         </div>
       </div>
@@ -494,22 +501,7 @@
       <button class="qr-close" id="closeQrEs">Cerrar</button>
     </div>
   </div>
-<script>
-(function () {
-  var img = document.getElementById("book-cover");
-  if (!img) return;
-  var orig = img.getAttribute("src");
-  fetch("https://itunes.apple.com/lookup?id=6766004553&entity=ebook")
-    .then(function (r) { return r.json(); })
-    .then(function (j) {
-      var u = j.results && j.results[0] && j.results[0].artworkUrl100;
-      if (!u) return;
-      var hi = u.replace(/100x100bb\.jpg$/i, "400x600bb.jpg");
-      img.src = hi;
-    })
-    .catch(function () { /* deja orig */ });
-})();
-</script>
+
 
 <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
 <script>

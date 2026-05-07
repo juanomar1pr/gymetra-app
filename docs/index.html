@@ -153,38 +153,30 @@
     </style>
 </head>
 <script>
+document.addEventListener("DOMContentLoaded", () => {
   const videos = document.querySelectorAll(".video-container video");
 
-  // Solo inicia cuando el 40% del video es visible
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       const video = entry.target;
-
       if (entry.isIntersecting && entry.intersectionRatio >= 0.4) {
-        // Reproducir solo si está en vista
         video.play().catch(() => {});
       } else {
-        // Pausar al salir de vista
         video.pause();
       }
     });
   }, {
-    threshold: [0, 0.4, 1],
-    root: null,
-    rootMargin: "0px"
+    threshold: [0, 0.4, 1]
   });
 
   videos.forEach((video) => {
-    video.pause(); // estado inicial
     observer.observe(video);
   });
 
-  // Extra: al cambiar de pestaña, pausa todo
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      videos.forEach(v => v.pause());
-    }
+    if (document.hidden) videos.forEach(v => v.pause());
   });
+});
 </script>
 <body>
 

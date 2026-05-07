@@ -152,7 +152,40 @@
         }
     </style>
 </head>
+<script>
+  const videos = document.querySelectorAll(".video-container video");
 
+  // Solo inicia cuando el 40% del video es visible
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target;
+
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.4) {
+        // Reproducir solo si está en vista
+        video.play().catch(() => {});
+      } else {
+        // Pausar al salir de vista
+        video.pause();
+      }
+    });
+  }, {
+    threshold: [0, 0.4, 1],
+    root: null,
+    rootMargin: "0px"
+  });
+
+  videos.forEach((video) => {
+    video.pause(); // estado inicial
+    observer.observe(video);
+  });
+
+  // Extra: al cambiar de pestaña, pausa todo
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      videos.forEach(v => v.pause());
+    }
+  });
+</script>
 <body>
 
     <div class="sidebar">
@@ -187,7 +220,7 @@
             • Set date and time
         </div>
               <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/create-meet-tutorial.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>
@@ -211,7 +244,7 @@
             • Enter required federation-specific information
         </div>
        <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/fed.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>
@@ -263,7 +296,7 @@ the correct device before assigning a judge.
             • Verify judge assignments
         </div>
             <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/judgeconn.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>
@@ -282,7 +315,7 @@ the correct device before assigning a judge.
             • Review athlete information
         </div>
         <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/import.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>
@@ -295,7 +328,7 @@ the correct device before assigning a judge.
             • Adjust athlete order
         </div>
                 <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/assign.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>
@@ -320,7 +353,7 @@ the correct device before assigning a judge.
             • Activate session
         </div>
  <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/sessions.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>
@@ -333,7 +366,7 @@ the correct device before assigning a judge.
             • Focus on the most important active section
         </div>
                <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/ajustes.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>
@@ -350,7 +383,7 @@ the correct device before assigning a judge.
             • Move the scoreboard to a second screen if needed
         </div>
                <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/display.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>
@@ -380,7 +413,7 @@ by checking the <strong>host IP address</strong> displayed in Gymetra
             • Judges begin scoring routines
         </div>
      <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/start.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>
@@ -394,7 +427,7 @@ by checking the <strong>host IP address</strong> displayed in Gymetra
         </div>
 
             <div class="video-container">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="none">
                 <source src="/videos/result.mp4" type="video/mp4">
                 Tu navegador no soporta el video.
             </video>

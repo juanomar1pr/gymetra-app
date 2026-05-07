@@ -23,117 +23,7 @@
       color: var(--apple-black);
       -webkit-font-smoothing: antialiased;
     }
-/* —— Libro: panel estilo Apple —— */
-.book-section {
-  padding: 100px 24px;
-  background: linear-gradient(180deg, #fbfbfd 0%, #ffffff 50%);
-  border-top: 1px solid #f5f5f7;
-}
 
-.book-section .content-wrapper {
-  max-width: 980px;
-  margin: 0 auto;
-}
-
-.book-panel {
-  display: grid;
-  grid-template-columns: minmax(200px, 1fr) minmax(280px, 1.15fr);
-  gap: 48px 64px;
-  align-items: center;
-  text-align: left;
-}
-
-.book-media {
-  justify-self: center;
-}
-
-.book-cover-link {
-  display: block;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.book-cover-img {
-  width: min(260px, 72vw);
-  height: auto;
-  border-radius: 14px;
-  box-shadow:
-    0 1px 0 rgba(0, 0, 0, 0.04),
-    0 24px 48px rgba(0, 0, 0, 0.12),
-    0 0 1px rgba(0, 0, 0, 0.08);
-  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.45s ease;
-}
-
-.book-cover-link:hover .book-cover-img,
-.book-cover-link:focus-visible .book-cover-img {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow:
-    0 1px 0 rgba(0, 0, 0, 0.06),
-    0 32px 64px rgba(0, 0, 0, 0.16),
-    0 0 1px rgba(0, 0, 0, 0.1);
-}
-
-.book-copy .section-label {
-  margin-bottom: 12px;
-}
-
-.book-copy h2 {
-  margin-bottom: 16px;
-}
-
-.book-copy .section-p {
-  margin: 0;
-  max-width: 42em;
-}
-
-.book-actions {
-  margin-top: 28px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: center;
-}
-
-.apple-books-badge {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  border-radius: 12px;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.apple-books-badge:hover {
-  opacity: 0.92;
-  transform: translateY(-1px);
-}
-
-.apple-books-badge img {
-  height: 58px;
-  width: auto;
-  display: block;
-}
-
-@media (max-width: 734px) {
-  .book-section {
-    padding: 72px 20px;
-  }
-
-  .book-panel {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 32px;
-  }
-
-  .book-copy .section-p {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .book-actions {
-    justify-content: center;
-    margin-top: 24px;
-  }
-}
     .content-wrapper {
       max-width: 980px;
       margin: 0 auto;
@@ -365,12 +255,74 @@
       margin-top: 8px;
     }
 
+    /* Minimal “two ways” — App Store vs licensed Mac */
+    .license-dual {
+      padding: 72px 0 96px;
+      border-bottom: 1px solid #f5f5f7;
+      text-align: center;
+    }
+
+    .license-dual h2 {
+      font-size: 40px;
+      line-height: 1.1;
+      margin: 0 0 12px;
+    }
+
+    .license-dual-intro {
+      font-size: 19px;
+      color: var(--apple-gray);
+      font-weight: 500;
+      max-width: 34em;
+      margin: 0 auto 36px;
+      line-height: 1.4;
+    }
+
+    .license-dual-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .license-dual-card {
+      padding: 28px 24px;
+      border-radius: 18px;
+      background: #fbfbfd;
+      border: 1px solid #e8e8ed;
+    }
+
+    .license-dual-card h3 {
+      margin: 0 0 10px;
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--apple-black);
+    }
+
+    .license-dual-card p {
+      margin: 0 0 18px;
+      font-size: 17px;
+      line-height: 1.35;
+      color: var(--apple-gray);
+      font-weight: 500;
+    }
+
+    .license-dual-card .link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
     @media (max-width: 734px) {
       h1 { font-size: 48px; }
       h2 { font-size: 36px; }
       .hero-lead { font-size: 24px; }
       .section-p { font-size: 20px; }
       .closing h2 { font-size: 42px; }
+      .license-dual h2 { font-size: 32px; }
     }
   </style>
 </head>
@@ -445,48 +397,51 @@
       <a href="/docs/" class="section-p">Docs</a>
     </section>
   </div>
-  <section class="book-section" aria-labelledby="book-heading">
-  <div class="content-wrapper">
-    <div class="book-panel">
 
-<div class="book-media">
-  <a
-    href="https://books.apple.com/us/book/id6765860228"
-    class="book-cover-link"
-    rel="noopener noreferrer"
-  >
-<img
-
-  src="https://is1-ssl.mzstatic.com/image/thumb/Publication221/v4/fd/cd/95/fdcd9569-5ef9-ae29-2bef-a54d02365aa7/c00b86c9-637e-4aa7-95c3-7e22e84767f9_cover_image.jpg/600x900bb.jpg"
-
-  alt="Gymetra children's book cover"
-
-  class="book-cover-img"
-
-  loading="lazy"
-
-  decoding="async"
-
-  referrerpolicy="no-referrer"
-
-/>
-  </a>
-</div>
-
-      <!-- TEXTO -->
-      <div class="book-copy">
-        <span class="section-label">Family Reading</span>
-        <h2 id="book-heading">A story to dream big.</h2>
-        <p class="section-p">
-          Bring the magic of gymnastics beyond the gym with our children's book. Perfect for inspiring young athletes before bedtime.
-        </p>
-
-    
+  <section class="license-dual" aria-labelledby="license-dual-title">
+    <div class="content-wrapper">
+      <span class="section-label">Choose your version</span>
+      <h2 id="license-dual-title">Gymetra on App Store, Mac, and iPad.</h2>
+      <p class="license-dual-intro">
+        The main <strong>Gymetra</strong> app already includes judge scoring. <strong>Gymetra Judge</strong> (free on iPad) is built for the <strong>licensed Mac</strong> meet host — use it when you want scoring on a dedicated iPad. You can use the main app, Judge, or both, depending on your setup.
+      </p>
+      <div class="license-dual-grid">
+        <div class="license-dual-card">
+          <h3>Gymetra (App Store)</h3>
+          <p>Subscribe on iPhone or iPad — scoring and judge tools in one app.</p>
+          <div class="link-row">
+            <a class="top-nav-link" href="https://apps.apple.com/us/app/gymetra/id6759612212?itscg=30200&itsct=apps_box_badge&mttnsubad=6759612212">App Store</a>
+          </div>
+        </div>
+        <div class="license-dual-card">
+          <h3>Mac download (license hosts)</h3>
+          <p>Disk image for running licensed meets on Mac.</p>
+          <div class="link-row">
+            <a class="top-nav-link" href="/downloads.html">Download .dmg</a>
+          </div>
+        </div>
+        <div class="license-dual-card">
+          <h3>Gymetra Judge (iPad)</h3>
+          <p>For the <strong>license</strong> setup: free on the App Store. The regular Gymetra app already includes judge features; use Judge on iPad when you want a separate device for scoring.</p>
+          <div class="link-row">
+            <a class="top-nav-link" href="https://apps.apple.com/app/gymetra-judge/id6763953556">Gymetra Judge — App Store</a>
+          </div>
+        </div>
+        <div class="license-dual-card">
+          <h3>Request a Mac license</h3>
+          <p>
+            <strong>Request license</strong> opens your email with a short form (including <strong>months requested</strong>) — fill in the blanks and send to <strong>gymetra@outlook.com</strong>.
+          </p>
+          <div class="link-row">
+            <a class="top-nav-link" href="mailto:gymetra@outlook.com?subject=Gymetra%20Mac%20%E2%80%94%20license%20request&amp;body=Hello%2C%0A%0AI%20would%20like%20to%20request%20a%20Gymetra%20license%20for%20Mac.%0A%0AFull%20name%3A%20%0AOrganization%20%2F%20gym%3A%20%0ACity%2C%20country%3A%20%0AEmail%20(if%20different%20from%20the%20address%20you%20are%20sending%20from)%3A%20%0APhone%20(optional)%3A%20%0AMonths%20requested%3A%20%0AApprox.%20number%20of%20Macs%20or%20meets%3A%20%0A%0AAdditional%20notes%3A%20%0A%0A%0AThank%20you.">Request license (email)</a>
+          </div>
+        </div>
       </div>
-
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- Apple Books / “libro”: coloca tu <section class="book-section"> aquí (entre esta sección y el footer). -->
+
   <footer>
     Copyright &copy; 2026 Gymetra Studio. All rights reserved.
   </footer>

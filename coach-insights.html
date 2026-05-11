@@ -493,9 +493,9 @@ async function loadRealMeets(){
 }
 
 function buildDatabase(){
-  const firstProgram = MEETS[0]?.program || "wag";
 
-buildEventDefs(firstProgram);
+
+
   ATHLETES = {};
   
   MEETS.forEach(meetData => {
@@ -516,20 +516,54 @@ buildEventDefs(firstProgram);
       });
     });
     Object.entries(athleteScores).forEach(([key,value]) => {
-      if(!ATHLETES[key]) ATHLETES[key] = { athlete:value.athlete, history:[] };
+     if(!ATHLETES[key]) ATHLETES[key] = {
+
+  athlete:value.athlete,
+
+  history:[],
+
+  program: meetData.program || "wag"
+
+};
      const historyEntry = {
   meet: meetName,
   date: meetDate,
   aa: value.total
 };
 
-EVENT_DEFS.forEach(def => {
+const defs = meetData.program === "mag"
 
-  if(def.key !== "aa"){
+  ? [
 
-    historyEntry[def.key] = value.events[def.key] || 0;
+      "floor",
 
-  }
+      "pommel",
+
+      "rings",
+
+      "vault",
+
+      "parallel",
+
+      "highbar"
+
+    ]
+
+  : [
+
+      "floor",
+
+      "vault",
+
+      "bars",
+
+      "beam"
+
+    ];
+
+defs.forEach(key => {
+
+  historyEntry[key] = value.events[key] || 0;
 
 });
 
@@ -846,6 +880,7 @@ function renderSegmented(){
 }
 
 function showChart(entry){
+    buildEventDefs(entry.program);
   currentEntry = entry;
   const a = entry.athlete;
   const chartArea = document.getElementById("chart-area");

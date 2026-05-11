@@ -377,6 +377,23 @@ tbody tr:last-child td{border-bottom:none}
   thead th{font-size:10px}
   table{border-radius:14px}
 }
+  .program-badge{
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+
+  background:rgba(124,58,237,.16);
+  border:1px solid rgba(124,58,237,.28);
+
+  color:#c4b5fd;
+
+  backdrop-filter:blur(10px);
+
+  flex-shrink:0;
+}
 </style>
 </head>
 <body>
@@ -387,7 +404,17 @@ tbody tr:last-child td{border-bottom:none}
     <div class="breadcrumb">
       <div class="brand-dot"></div>
       <span class="bc-path">Gymetra ›</span>
-      <span class="bc-meet" id="meet-title">Cargando…</span>
+     <div style="display:flex;align-items:center;gap:10px;min-width:0">
+
+  <span class="bc-meet" id="meet-title">Cargando…</span>
+
+  <div id="program-badge" class="program-badge">
+
+    WAG
+
+  </div>
+
+</div>
     </div>
     <div class="theme-btn" onclick="toggleTheme()" title="Toggle theme">
       <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -451,6 +478,21 @@ async function loadResults(){
     const result = await response.json();
     if(result && result.length > 0){
       DATA = result[0].data;
+      const program = (DATA.program || "wag").toLowerCase();
+
+const badge = document.getElementById("program-badge");
+
+badge.textContent = program.toUpperCase();
+
+if(program === "mag"){
+
+  badge.style.background = "rgba(10,132,255,.14)";
+
+  badge.style.borderColor = "rgba(10,132,255,.24)";
+
+  badge.style.color = "#7dd3fc";
+
+}
       document.getElementById("loader").style.display = "none";
       document.getElementById("meet-title").textContent = DATA.meet?.name || "Gymetra";
       buildSessionFilters();

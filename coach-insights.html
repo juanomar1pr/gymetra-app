@@ -427,7 +427,7 @@ let MEETS = [];
 let ATHLETES = {};
 let currentChart = null;
 let currentEntry = null;
-let chartMode = "line"; // line | area | bar | radar
+let chartMode = "line"; // line | area | bar 
 let EVENT_DEFS = [];
 
 function buildEventDefs(program){
@@ -641,43 +641,74 @@ function buildDatasets(entry, area, ctx){
       base.backgroundColor = def.color + "cc";
       base.hoverBackgroundColor = def.color;
     }
-    if(chartMode === "radar"){
-      base.fill = true;
-      base.backgroundColor = def.color + "33";
-      base.borderWidth = 2;
-      base.pointBackgroundColor = def.color;
-    }
+  
     return base;
   });
 }
-
 function renderChart(){
+
   if(!currentEntry) return;
+
   const canvas = document.getElementById("scoreChart");
   const ctx = canvas.getContext("2d");
+
   if(currentChart) currentChart.destroy();
 
-  let type = chartMode === "area" ? "line" : chartMode;
-  
+  const type = chartMode === "area"
+    ? "line"
+    : chartMode;
 
-  // For radar, use averaged per-event snapshot (last meet)
-  let labels, datasets;
+  const labels = currentEntry.history.map(h => h.meet);
 
+  const datasets = buildDatasets(currentEntry, null, ctx);
 
   currentChart = new Chart(ctx, {
+
     type,
-    data:{ labels, datasets },
+
+    data:{
+      labels,
+      datasets
+    },
+
     options:{
       responsive:true,
       maintainAspectRatio:false,
-      interaction:{ mode:"index", intersect:false },
-      animation:{ duration:900, easing:"easeOutCubic" },
-      layout:{ padding:{ top:10,right:10,bottom:0,left:0 } },
+
+      interaction:{
+        mode:"index",
+        intersect:false
+      },
+
+      animation:{
+        duration:900,
+        easing:"easeOutCubic"
+      },
+
+      layout:{
+        padding:{
+          top:10,
+          right:10,
+          bottom:0,
+          left:0
+        }
+      },
+
       plugins:{
+
         legend:{
-          display:isRadar,
-          labels:{ color:"#d1d1d6", usePointStyle:true, boxWidth:8, font:{ size:12, weight:"600" } }
+          display:true,
+          labels:{
+            color:"#d1d1d6",
+            usePointStyle:true,
+            boxWidth:8,
+            font:{
+              size:12,
+              weight:"600"
+            }
+          }
         },
+
         tooltip:{
           enabled:true,
           backgroundColor:"rgba(20,20,24,.92)",
@@ -689,44 +720,86 @@ function renderChart(){
           cornerRadius:12,
           displayColors:true,
           boxPadding:6,
-          titleFont:{ weight:"700", size:13 },
-          bodyFont:{ size:12 },
+          titleFont:{
+            weight:"700",
+            size:13
+          },
+          bodyFont:{
+            size:12
+          }
         }
       },
-      scales: isRadar ? {
-        r:{
-          angleLines:{ color:"rgba(255,255,255,.08)" },
-          grid:{ color:"rgba(255,255,255,.08)" },
-          pointLabels:{ color:"#d1d1d6", font:{ size:12, weight:"600" } },
-          ticks:{ color:"#6b6b70", backdropColor:"transparent", showLabelBackdrop:false }
-        }
-      } : {
+
+      scales:{
+
         x:{
-          grid:{ color:"rgba(255,255,255,.05)", drawBorder:false },
-          ticks:{ color:"#8e8e93", font:{ size:11, weight:"500" }, maxRotation:0, autoSkip:true }
+          grid:{
+            color:"rgba(255,255,255,.05)",
+            drawBorder:false
+          },
+          ticks:{
+            color:"#8e8e93",
+            font:{
+              size:11,
+              weight:"500"
+            },
+            maxRotation:0,
+            autoSkip:true
+          }
         },
+
         y:{
-          grid:{ color:"rgba(255,255,255,.05)", drawBorder:false },
-          ticks:{ color:"#8e8e93", font:{ size:11, weight:"500" } },
+          grid:{
+            color:"rgba(255,255,255,.05)",
+            drawBorder:false
+          },
+          ticks:{
+            color:"#8e8e93",
+            font:{
+              size:11,
+              weight:"500"
+            }
+          },
           beginAtZero:false
         }
+
       }
+
     },
-    plugins: chartMode === "line" || chartMode === "area" ? [glowPlugin] : []
+
+    plugins:
+      chartMode === "line" || chartMode === "area"
+        ? [glowPlugin]
+        : []
+
   });
 
-  // Apply gradients now that chartArea exists (for area fills)
-  if(chartMode === "area" || chartMode === "line"){
-    const area = currentChart.chartArea;
-    currentChart.data.datasets.forEach((ds,i) => {
-      const def = EVENT_DEFS.filter(e => visibleEvents[e.key])[i];
-      if(!def) return;
-      ds.backgroundColor = makeGradient(ctx, area, def.color);
-    });
-    currentChart.update("none");
-  }
-}
+  // gradients
 
+  if(chartMode === "area" || chartMode === "line"){
+
+    const area = currentChart.chartArea;
+
+    currentChart.data.datasets.forEach((ds,i) => {
+
+      const def = EVENT_DEFS
+        .filter(e => visibleEvents[e.key])[i];
+
+      if(!def) return;
+
+      ds.backgroundColor = makeGradient(
+        ctx,
+        area,
+        def.color
+      );
+
+    });
+
+    currentChart.update("none");
+
+  }
+
+}
 function renderKPIs(entry){
   const k = computeKPIs(entry.history);
   if(!k) return "";

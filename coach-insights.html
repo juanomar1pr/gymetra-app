@@ -428,13 +428,40 @@ let ATHLETES = {};
 let currentChart = null;
 let currentEntry = null;
 let chartMode = "line"; // line | area | bar | radar
-const EVENT_DEFS = [
-  { key:"aa",    label:"AA",    color:"#0A84FF" },
-  { key:"floor", label:"Floor", color:"#FF9F0A" },
-  { key:"vault", label:"Vault", color:"#30D158" },
-  { key:"bars",  label:"Bars",  color:"#BF5AF2" },
-  { key:"beam",  label:"Beam",  color:"#FF375F" },
-];
+let EVENT_DEFS = [];
+
+function buildEventDefs(program){
+
+  if(program === "mag"){
+
+    EVENT_DEFS = [
+      { key:"aa",        label:"AA",        color:"#0A84FF" },
+      { key:"floor",     label:"Floor",     color:"#FF9F0A" },
+      { key:"pommel",    label:"Pommel",    color:"#30D158" },
+      { key:"rings",     label:"Rings",     color:"#BF5AF2" },
+      { key:"vault",     label:"Vault",     color:"#FF375F" },
+      { key:"parallel",  label:"Parallel",  color:"#63E6E2" },
+      { key:"highbar",   label:"High Bar",  color:"#FFD60A" },
+    ];
+
+  } else {
+
+    EVENT_DEFS = [
+      { key:"aa",    label:"AA",    color:"#0A84FF" },
+      { key:"floor", label:"Floor", color:"#FF9F0A" },
+      { key:"vault", label:"Vault", color:"#30D158" },
+      { key:"bars",  label:"Bars",  color:"#BF5AF2" },
+      { key:"beam",  label:"Beam",  color:"#FF375F" },
+    ];
+
+  }
+
+  visibleEvents = {};
+
+  EVENT_DEFS.forEach((e,index) => {
+    visibleEvents[e.key] = index === 0;
+  });
+}
 let visibleEvents = { aa:true, floor:false, vault:false, bars:false, beam:false };
 
 function athleteKey(a){
@@ -466,7 +493,11 @@ async function loadRealMeets(){
 }
 
 function buildDatabase(){
+  const firstProgram = MEETS[0]?.program || "wag";
+
+buildEventDefs(firstProgram);
   ATHLETES = {};
+  
   MEETS.forEach(meetData => {
     if(!meetData.events?.length) return;
     const meetName = meetData.meet?.name || "Meet";
@@ -486,14 +517,23 @@ function buildDatabase(){
     });
     Object.entries(athleteScores).forEach(([key,value]) => {
       if(!ATHLETES[key]) ATHLETES[key] = { athlete:value.athlete, history:[] };
-      ATHLETES[key].history.push({
-        meet:meetName, date:meetDate,
-        aa:value.total,
-        floor:value.events.floor||0,
-        vault:value.events.vault||0,
-        bars:value.events.bars||0,
-        beam:value.events.beam||0
-      });
+     const historyEntry = {
+  meet: meetName,
+  date: meetDate,
+  aa: value.total
+};
+
+EVENT_DEFS.forEach(def => {
+
+  if(def.key !== "aa"){
+
+    historyEntry[def.key] = value.events[def.key] || 0;
+
+  }
+
+});
+
+ATHLETES[key].history.push(historyEntry);
     });
   });
   Object.values(ATHLETES).forEach(entry => {
@@ -618,40 +658,11 @@ function renderChart(){
   if(currentChart) currentChart.destroy();
 
   let type = chartMode === "area" ? "line" : chartMode;
-  const isRadar = chartMode === "radar";
+  
 
   // For radar, use averaged per-event snapshot (last meet)
   let labels, datasets;
-  if(isRadar){
-    const last = currentEntry.history[currentEntry.history.length-1];
-    labels = ["Floor","Vault","Bars","Beam"];
-    datasets = [{
-      label: last?.meet || "Latest",
-      data: [last?.floor||0,last?.vault||0,last?.bars||0,last?.beam||0],
-      borderColor:"#0A84FF",
-      backgroundColor:"rgba(10,132,255,.22)",
-      pointBackgroundColor:"#0A84FF",
-      pointBorderColor:"#fff",
-      borderWidth:2,
-      pointRadius:4,
-    }];
-    if(currentEntry.history.length > 1){
-      const first = currentEntry.history[0];
-      datasets.push({
-        label:first.meet || "First",
-        data:[first.floor||0,first.vault||0,first.bars||0,first.beam||0],
-        borderColor:"#BF5AF2",
-        backgroundColor:"rgba(191,90,242,.18)",
-        pointBackgroundColor:"#BF5AF2",
-        pointBorderColor:"#fff",
-        borderWidth:2,
-        pointRadius:4,
-      });
-    }
-  } else {
-    labels = currentEntry.history.map(h => h.meet);
-    datasets = buildDatasets(currentEntry, null, ctx);
-  }
+
 
   currentChart = new Chart(ctx, {
     type,
@@ -752,7 +763,7 @@ function renderSegmented(){
     { id:"line", label:"Line" },
     { id:"area", label:"Area" },
     { id:"bar",  label:"Bars" },
-    { id:"radar",label:"Radar"},
+
   ];
   return `
     <div class="segmented" id="segmented">

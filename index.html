@@ -324,6 +324,38 @@
       .closing h2 { font-size: 42px; }
       .license-dual h2 { font-size: 32px; }
     }
+    .pdf-section {
+  padding: 120px 20px;
+  text-align: center;
+}
+
+.pdf-section h2 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.pdf-section p {
+  font-size: 22px;
+  color: #86868b;
+  margin-bottom: 40px;
+}
+
+.pdf-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  border: 1px solid #e5e5e7;
+}
+
+.pdf-wrapper iframe {
+  width: 100%;
+  height: 80vh;
+  border: none;
+  background: white;
+}
   </style>
 </head>
 <body>
@@ -374,6 +406,21 @@
     <section class="section">
       <span class="section-label">For Small Gyms</span>
       <h2>Professional tools for every club.</h2>
+       <div class="pdf-wrapper">
+
+    <iframe
+
+      src="Gymetra_System01.pdf"
+
+      title="Gymetra PDF"
+
+      loading="lazy">
+
+    </iframe>
+
+  </div>
+
+</section>
       <p class="section-p">
         Gymetra is designed for more than large competitions.
         Small gyms and local events can use the <span class="highlight">same professional scoring tools</span> to organize sessions, evaluate routines, and follow athlete progress with ease.

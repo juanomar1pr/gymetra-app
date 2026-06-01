@@ -681,6 +681,35 @@
   background: white;
 
 }
+    .product-box-image {
+
+  display: flex;
+
+  justify-content: center;
+
+  margin: 80px 0;
+
+}
+
+.product-box-image img {
+
+  width: 420px;
+
+  max-width: 100%;
+
+  display: block;
+
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.18));
+
+  transition: transform 0.35s ease;
+
+}
+
+.product-box-image img:hover {
+
+  transform: translateY(-6px) scale(1.02);
+
+}
   </style>
 </head>
 <body>
@@ -794,7 +823,11 @@
     </section>
 <section class="pdf-section">
 
+<div class="product-box-image">
 
+  <img src="/images/gymetra-box.png" alt="Gymetra Box">
+
+</div>
   <p>
 
     Learn how Gymetra Host and Gymetra Judge work together in real time.

@@ -365,7 +365,33 @@
   margin: 80px 0;
 
 }
+.pdf-preview{
+  width:100%;
+  margin-top:40px;
 
+  border-radius:28px;
+  overflow:hidden;
+
+  background:#0b0b0f;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.45),
+    0 0 0 1px rgba(255,255,255,0.03);
+
+  position:relative;
+}
+
+.pdf-embed{
+  width:100%;
+  height:min(85vh, 1200px);
+
+  display:block;
+  border:none;
+
+  background:#111;
+}
   </style>
 </head>
 <body>
@@ -413,26 +439,41 @@
       </p>
     </section>
 
-    <div class="container">
-      <img src="/images/gym.jpeg" alt="Gymetra Scores" class="gym-image" />
-    </div>
+ <div class="container">
 
-    <section class="section">
-      <span class="section-label">For Small Gyms</span>
-      <h2>Professional tools for every club.</h2>
-       <div class="pdf-wrapper">
+  <img
 
-    <iframe
+    src="/images/gym.jpeg"
 
-      src="Gymetra_System01.pdf"
+    alt="Gymetra Scores"
 
-      title="Gymetra PDF"
+    class="gym-image"
 
-      loading="lazy">
+  />
 
-    </iframe>
+</div>
+
+<section class="section">
+
+  <span class="section-label">For Small Gyms</span>
+
+  <h2>Professional tools for every club.</h2>
+
+  <div class="pdf-preview">
+
+    <embed
+
+      src="/pdf/Gymetra_System01.pdf#view=FitH"
+
+      type="application/pdf"
+
+      class="pdf-embed"
+
+    />
 
   </div>
+
+</section>
 
 </section>
       <p class="section-p">

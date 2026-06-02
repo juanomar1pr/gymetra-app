@@ -372,18 +372,37 @@
   position:relative;
 
 }
-
-.pdf-embed{
+.system-flow{
 
   width:100%;
 
-  height:min(85vh, 1200px);
+  margin-top:48px;
+
+  border-radius:32px;
+
+  overflow:hidden;
+
+  background:#0b0b0f;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+
+    0 20px 80px rgba(0,0,0,0.45),
+
+    0 0 0 1px rgba(255,255,255,0.03);
+
+}
+
+.system-flow-image{
+
+  width:100%;
+
+  height:auto;
 
   display:block;
 
-  border:none;
-
-  background:#111;
+  object-fit:cover;
 
 }
 
@@ -457,11 +476,19 @@
 
   <div class="pdf-preview">
 
-  <object
-  data="/flowgs.png"
-  type="application/pdf"
-  class="pdf-embed">
-</object>
+<div class="system-flow">
+
+  <img
+
+    src="/flowgs.png"
+
+    alt="Gymetra System Flow"
+
+    class="system-flow-image"
+
+  />
+
+</div>
 
   </div>
 

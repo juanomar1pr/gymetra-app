@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Descarga Gymetra Judge para iOS y Gymetra Host para macOS — la plataforma profesional de puntuación para gimnasia.">
+  <title>Descargar — Gymetra</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-deep: #07080f;
+      --bg-mid: #0d1020;
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-bg-hover: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-border-hover: rgba(255, 255, 255, 0.18);
+      --text-primary: #f5f5f7;
+      --text-secondary: rgba(245, 245, 247, 0.62);
+      --text-tertiary: rgba(245, 245, 247, 0.42);
+      --accent-indigo: #6366f1;
+      --accent-violet: #8b5cf6;
+      --accent-blue: #3b82f6;
+      --accent-glow: rgba(99, 102, 241, 0.35);
+      --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.25);
+      --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
+      --shadow-card-hover: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12);
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-xl: 36px;
+      --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-system);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Atmospheric background */
+    .bg-atmosphere {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-atmosphere::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99, 102, 241, 0.22) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 85% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 10% 60%, rgba(59, 130, 246, 0.12) 0%, transparent 45%),
+        radial-gradient(ellipse 70% 50% at 50% 100%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg-mid) 0%, var(--bg-deep) 40%, #05060a 100%);
+    }
+
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .bg-orb--1 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation-delay: 0s;
+    }
+
+    .bg-orb--2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%);
+      top: 30%;
+      right: -100px;
+      animation-delay: -7s;
+    }
+
+    .bg-orb--3 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+      bottom: 10%;
+      left: -80px;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(20px, -15px) scale(1.03); }
+      66% { transform: translate(-15px, 10px) scale(0.98); }
+    }
+
+    .bg-orb--1 {
+      animation-name: float-center;
+    }
+
+    @keyframes float-center {
+      0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+      33% { transform: translateX(calc(-50% + 20px)) translateY(-15px) scale(1.03); }
+      66% { transform: translateX(calc(-50% - 15px)) translateY(10px) scale(0.98); }
+    }
+
+    /* Layout */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 100px 0 72px;
+    }
+
+    .hero-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+      height: 120px;
+      margin-bottom: 40px;
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        var(--shadow-card),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 0 60px var(--accent-glow);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .hero-logo:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow:
+        var(--shadow-card-hover),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 80px rgba(99, 102, 241, 0.45);
+    }
+
+.hero-logo img {
+
+  width: 120px;
+
+  height: 120px;
+
+  object-fit: contain;
+
+  display: block;
+
+  transform: scale(2.2);
+
+}
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      background: linear-gradient(180deg, #ffffff 0%, rgba(245, 245, 247, 0.85) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+    }
+
+    .hero-description {
+      font-size: clamp(1rem, 2vw, 1.1875rem);
+      color: var(--text-tertiary);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Section headings */
+    .section-label {
+      text-align: center;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-indigo);
+      margin-bottom: 16px;
+    }
+
+    /* Download cards */
+    .downloads {
+      padding: 24px 0 80px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 40px 36px;
+      border-radius: var(--radius-xl);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      transition:
+        transform var(--transition),
+        background var(--transition),
+        border-color var(--transition),
+        box-shadow var(--transition);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-hover);
+      box-shadow: var(--shadow-card-hover);
+    }
+
+    .card-title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .card-description {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }
+
+    .card-features {
+      list-style: none;
+      margin-bottom: 36px;
+      flex-grow: 1;
+    }
+
+    .card-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      padding: 8px 0;
+    }
+
+    .card-features li::before {
+      content: "";
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 28px;
+      font-family: var(--font-system);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.06) 100%);
+      box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      transition:
+        transform var(--transition),
+        background var(--transition),
+        box-shadow var(--transition),
+        border-color var(--transition);
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: scale(1.02);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow:
+        0 4px 20px rgba(99, 102, 241, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn svg {
+      flex-shrink: 0;
+    }
+
+    .btn--primary {
+      background: linear-gradient(180deg, var(--accent-indigo) 0%, #4f46e5 100%);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow:
+        0 4px 20px rgba(99, 102, 241, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .btn--primary:hover {
+      background: linear-gradient(180deg, #818cf8 0%, var(--accent-indigo) 100%);
+      box-shadow:
+        0 8px 32px rgba(99, 102, 241, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    /* Install instructions */
+    .instructions {
+      padding: 0 0 100px;
+    }
+
+    .instructions-panel {
+      padding: 56px 48px;
+      border-radius: var(--radius-xl);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .instructions-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    }
+
+    .instructions-heading {
+      text-align: center;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 48px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .step {
+      text-align: center;
+      padding: 32px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition:
+        transform var(--transition),
+        background var(--transition),
+        border-color var(--transition);
+    }
+
+    .step:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.2) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 24px rgba(99, 102, 241, 0.2);
+    }
+
+    .step-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+  
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 0 0 48px;
+    }
+
+    .footer-text {
+      font-size: 0.8125rem;
+      color: var(--text-tertiary);
+      letter-spacing: 0.01em;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .instructions-panel {
+        padding: 44px 28px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 72px 0 56px;
+      }
+
+      .hero-logo {
+        width: 96px;
+        height: 96px;
+        border-radius: 22px;
+        margin-bottom: 32px;
+      }
+
+      .hero-logo svg {
+        width: 52px;
+        height: 52px;
+      }
+
+      .card {
+        padding: 32px 24px;
+        border-radius: var(--radius-lg);
+      }
+
+      .downloads {
+        padding-bottom: 64px;
+      }
+
+      .instructions {
+        padding-bottom: 72px;
+      }
+
+      .instructions-heading {
+        margin-bottom: 36px;
+      }
+
+      .step {
+        padding: 28px 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+    .card-header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin-bottom: 10px;
+
+}
+
+.card-header img {
+
+  width: 96px;
+
+  height: 96px;
+
+  object-fit: contain;
+
+  border-radius: 10px;
+
+  flex-shrink: 0;
+
+}
+.qr-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 999;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.qr-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+  z-index: 1000;
+}
+
+.qr-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.qr-modal {
+  width: 320px;
+  padding: 32px;
+  border-radius: 28px;
+  background: #0f172a;
+  border: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+}
+
+.qr-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: white;
+}
+
+.qr-subtitle {
+  margin-top: 18px;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.9rem;
+}
+
+.qr-close {
+  margin-top: 24px;
+  width: 100%;
+  height: 46px;
+  border-radius: 14px;
+  border: none;
+  background: #4f46e5;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+    .pdf-section {
+
+  padding: 120px 20px;
+
+  text-align: center;
+
+}
+
+.pdf-section h2 {
+
+  font-size: 48px;
+
+  margin-bottom: 20px;
+
+}
+
+.pdf-section p {
+
+  font-size: 22px;
+
+  color: #86868b;
+
+  margin-bottom: 40px;
+
+}
+
+.pdf-wrapper {
+
+  width: 100%;
+
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+
+  border: 1px solid #e5e5e7;
+
+}
+
+
+    .product-box-image {
+
+  display: flex;
+
+  justify-content: center;
+
+  margin: 80px 0;
+
+}
+
+.product-box-image img {
+
+  width: 420px;
+
+  max-width: 100%;
+
+  display: block;
+
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.18));
+
+  transition: transform 0.35s ease;
+
+}
+
+.product-box-image img:hover {
+
+  transform: translateY(-6px) scale(1.02);
+
+}
+    .pdf-preview{
+
+  width:100%;
+
+  margin-top:40px;
+
+  border-radius:28px;
+
+  overflow:hidden;
+
+  background:#0b0b0f;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+
+    0 20px 60px rgba(0,0,0,0.45),
+
+    0 0 0 1px rgba(255,255,255,0.03);
+
+  position:relative;
+
+}
+
+.pdf-embed{
+
+  width:100%;
+
+  height:min(85vh, 1200px);
+
+  display:block;
+
+  border:none;
+
+  background:#111;
+
+}
+    .system-flow{
+
+  width:100%;
+
+  margin-top:48px;
+
+  border-radius:32px;
+
+  overflow:hidden;
+
+  background:#0b0b0f;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+
+    0 20px 80px rgba(0,0,0,0.45),
+
+    0 0 0 1px rgba(255,255,255,0.03);
+
+}
+
+.system-flow-image{
+
+  width:100%;
+
+  height:auto;
+
+  display:block;
+
+  object-fit:cover;
+
+}
+  </style>
+</head>
+<body>
+
+  <div class="bg-atmosphere" aria-hidden="true">
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
+  </div>
+
+  <main class="page">
+
+    <!-- SECTION 1: HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+    
+      <div class="hero-logo" role="img" aria-label="Gymetra logo">
+          <img src="/images/ab.png" alt="Gymetra Box">
+       
+      </div>
+
+      <h1 class="hero-title" id="hero-title">Gymetra</h1>
+      <p class="hero-subtitle">SUITE DE LICENCIAS</p>
+      <p class="hero-description">La forma moderna de administrar competencias de gimnasia</p>
+    </section>
+
+    <!-- SECTION 2: DOWNLOAD CARDS -->
+    <section class="downloads" aria-labelledby="downloads-heading">
+      <p class="section-label" id="downloads-heading">Aplicaciones</p>
+
+      <div class="cards-grid">
+
+        <!-- Card 1: Gymetra Judge -->
+        <article class="card">
+          <div class="card-header">
+
+  <img src="images/j.png" alt="Judge App">
+
+  <h2 class="card-title">Gymetra Judge</h2>
+
+</div>
+          
+
+          <p class="card-description">Aplicación gratuita para jueces en iPhone y iPad.</p>
+
+          <ul class="card-features">
+            <li>Puntuación en tiempo real</li>
+            <li>Se conecta con Gymetra Host</li>
+            <li>Lista para competencias</li>
+          </ul>
+
+          <a href="https://apps.apple.com/us/app/gymetra-judge/id6763953556" class="btn" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+            </svg>
+            Descárgalo en el App Store
+          </a>
+        </article>
+
+        <!-- Card 2: Gymetra Host -->
+        <article class="card">
+           <div class="card-header">
+           <img src="images/ab.png" alt="Judge App">
+
+          <h2 class="card-title">Gymetra Host</h2>
+           </div>
+          <p class="card-description">Todo lo que necesitas para administrar competencias de gimnasia en Mac. Prueba Gymetra gratis por 2 semanas.</p>
+
+          <ul class="card-features">
+            <li>Gestión de competencias</li>
+            <li>Sesiones y reportes</li>
+            <li>Premiaciones y resultados en vivo</li>
+          </ul>
+
+          <a href="/Gymetra-License.dmg" class="btn btn--primary" download>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Descargar para macOS
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: INSTALL INSTRUCTIONS -->
+    <section class="instructions" aria-labelledby="instructions-heading">
+      <div class="instructions-panel">
+        <h2 class="instructions-heading" id="instructions-heading">Comienza en Tres Pasos</h2>
+
+        <ol class="steps">
+          <li class="step">
+            <div class="step-number" aria-hidden="true">1</div>
+            <h3 class="step-title">Descargar</h3>
+            <p class="step-text">Descarga Gymetra Host en tu Mac y Gymetra Judge en los iPhone o iPad de tus jueces.</p>
+          </li>
+
+          <li class="step">
+            <div class="step-number" aria-hidden="true">2</div>
+            <h3 class="step-title">Instalar</h3>
+            <p class="step-text">Abre el instalador de macOS y arrastra Gymetra Host a Aplicaciones. Inicia la app desde tu Dock.</p>
+          </li>
+
+          <li class="step">
+            <div class="step-number" aria-hidden="true">3</div>
+            <h3 class="step-title">Activar Licencia</h3>
+            <p class="step-text">Activa una prueba gratuita de 2 semanas dentro de Gymetra Host y comienza a administrar competencias inmediatamente. Ingresa tu licencia dentro de Gymetra Host para desbloquear todas las funciones profesionales. No se requiere cuenta.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+<section class="pdf-section">
+
+
+  <p>
+    Aprende cómo Gymetra Host y Gymetra Judge trabajan juntos en tiempo real.
+  </p>
+
+<div class="system-flow">
+
+  <img
+
+    src="/flowgj.png"
+
+    alt="Gymetra System Flow"
+
+    class="system-flow-image"
+
+  />
+
+</div>
+
+</section>
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-text">&copy; 2026 Gymetra. Todos los derechos reservados.</p>
+    </footer>
+    <button class="qr-fab" id="openQrEn" aria-label="Abrir acceso rápido">
+
+  Ar
+
+</button>
+
+<div class="qr-overlay" id="qrOverlayEn">
+
+  <div class="qr-modal">
+
+   
+<p class="qr-title"> Gymetra Judge</p>
+    <div id="qr-points-en"></div>
+ <p class="qr-title">Acceso rápido </p>
+    <p class="qr-subtitle">
+      Escanea con la cámara de tu iPhone o iPad
+ </p>
+
+    <button class="qr-close" id="closeQrEn">
+      Cerrar
+    </button>
+
+  </div>
+
+</div>
+
+  </main>
+<script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+
+<script>
+const openBtnEn = document.getElementById("openQrEn");
+const closeBtnEn = document.getElementById("closeQrEn");
+const overlayEn = document.getElementById("qrOverlayEn");
+
+openBtnEn.addEventListener("click", () => {
+  overlayEn.classList.add("open");
+});
+
+closeBtnEn.addEventListener("click", () => {
+  overlayEn.classList.remove("open");
+});
+
+overlayEn.addEventListener("click", (e) => {
+  if (e.target === overlayEn) {
+    overlayEn.classList.remove("open");
+  }
+});
+
+const target = document.getElementById("qr-points-en");
+
+const qr = new QRCodeStyling({
+  width: 190,
+  height: 190,
+  type: "svg",
+  data: "https://apple.co/4wUOqK9",
+  margin: 8,
+  qrOptions: {
+    errorCorrectionLevel: "H"
+  },
+  dotsOptions: {
+    type: "dots",
+    color: "#6366f1"
+  },
+  backgroundOptions: {
+    color: "#ffffff"
+  },
+  cornersSquareOptions: {
+    type: "extra-rounded",
+    color: "#6366f1"
+  },
+  cornersDotOptions: {
+    type: "dot",
+    color: "#6366f1"
+  }
+});
+
+qr.append(target);
+</script>
+</body>
+</html>

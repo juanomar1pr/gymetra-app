@@ -12,7 +12,16 @@ jobs:
     steps:
       - name: Ping Supabase
         run: |
-          curl -i \
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
-            "https://ulexxpaatpjtpgkancew.supabase.co/rest/v1/meets?select=id&limit=1"
+            "https://ulexxpaatpjtpgkancew.supabase.co/rest/v1/meets?select=id&limit=1")
+
+          echo "HTTP Status: $STATUS"
+
+          if [ "$STATUS" != "200" ]; then
+            echo "❌ Supabase returned HTTP $STATUS"
+            exit 1
+          fi
+
+          echo "✅ Supabase is alive"

@@ -20,8 +20,8 @@ jobs:
           echo "HTTP Status: $STATUS"
 
           if [ "$STATUS" != "200" ]; then
-            echo "❌ Supabase returned HTTP $STATUS"
+            echo "❌ ERROR: Supabase respondió con HTTP $STATUS"
             exit 1
           fi
 
-          echo "✅ Supabase is alive"
+          echo "✅ Supabase respondió correctamente."

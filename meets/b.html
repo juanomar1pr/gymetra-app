@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gymetra — Meet Loading</title>
+
+<style>
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #05040a;
+    --panel: #0d0b14;
+
+    --white: #ffffff;
+    --muted: #85808f;
+
+    --purple: #a66cff;
+    --purple-light: #d7b5ff;
+    --purple-dark: #6335b5;
+
+    --green: #62f5a1;
+
+    --line: rgba(255, 255, 255, .09);
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        sans-serif;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            #20142f 0%,
+            #0b0812 45%,
+            #030205 100%
+        );
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.background {
+    position: fixed;
+    inset: 0;
+
+    overflow: hidden;
+    pointer-events: none;
+}
+
+
+/* grid */
+
+.grid {
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 55px 55px;
+
+    mask-image:
+        radial-gradient(
+            circle at center,
+            black,
+            transparent 72%
+        );
+
+    -webkit-mask-image:
+        radial-gradient(
+            circle at center,
+            black,
+            transparent 72%
+        );
+}
+
+
+/* purple ambient light */
+
+.ambient {
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(171, 103, 255, .13),
+            rgba(118, 64, 196, .06) 40%,
+            transparent 70%
+        );
+
+    filter: blur(25px);
+
+    animation: ambientPulse 5s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+
+    50% {
+        transform:
+            translate(-50%, -50%)
+            scale(1.18);
+
+        opacity: .65;
+    }
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader {
+    position: fixed;
+    inset: 0;
+
+    z-index: 100;
+
+    display: grid;
+    place-items: center;
+
+    transition:
+        opacity 1s ease,
+        transform 1.2s ease,
+        filter 1.2s ease;
+}
+
+.loader.hide {
+    opacity: 0;
+
+    transform: scale(1.08);
+
+    filter: blur(22px);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SYSTEM AREA
+========================================================= */
+
+.system {
+    position: relative;
+
+    width: min(720px, 95vw);
+    height: min(720px, 92vh);
+
+    display: grid;
+    place-items: center;
+}
+
+
+/* =========================================================
+   ORBITS
+========================================================= */
+
+.orbit {
+    position: absolute;
+
+    width: 480px;
+    height: 480px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(205, 171, 255, .10);
+
+    box-shadow:
+        inset 0 0 70px
+        rgba(166, 108, 255, .025);
+
+    animation:
+        orbitRotate 35s linear infinite;
+}
+
+.orbit::before {
+    content: "";
+
+    position: absolute;
+    inset: 38px;
+
+    border-radius: 50%;
+
+    border:
+        1px dashed
+        rgba(255,255,255,.055);
+}
+
+.orbit::after {
+    content: "";
+
+    position: absolute;
+    inset: 95px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(166,108,255,.05);
+}
+
+@keyframes orbitRotate {
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   EVENT PILLS
+========================================================= */
+
+.event {
+    position: absolute;
+
+    z-index: 10;
+
+    width: 82px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    border-radius: 100px;
+
+    background:
+        rgba(12, 9, 18, .82);
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+
+    color: #aaa2b6;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 1.3px;
+
+    opacity: 0;
+
+    animation:
+        eventAppear .7s ease forwards;
+}
+
+.event::before {
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: var(--purple-light);
+
+    box-shadow:
+        0 0 10px var(--purple);
+}
+
+
+/* positions */
+
+.floor {
+    top: 7%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    animation-delay: .4s;
+}
+
+.vault {
+    top: 27%;
+    left: 6%;
+
+    animation-delay: .6s;
+}
+
+.bars {
+    top: 27%;
+    right: 6%;
+
+    animation-delay: .8s;
+}
+
+.beam {
+    bottom: 27%;
+    left: 6%;
+
+    animation-delay: 1s;
+}
+
+.rings {
+    bottom: 27%;
+    right: 6%;
+
+    animation-delay: 1.2s;
+}
+
+.highbar {
+    bottom: 7%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    animation-delay: 1.4s;
+}
+
+
+@keyframes eventAppear {
+
+    from {
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+
+/* =========================================================
+   HOST CARD
+========================================================= */
+
+.host {
+    position: relative;
+
+    z-index: 20;
+
+    width: 250px;
+    height: 250px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 55px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(24, 18, 33, .96),
+            rgba(7, 6, 11, .97)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.11);
+
+    box-shadow:
+        0 35px 90px rgba(0,0,0,.60),
+        0 0 80px rgba(166,108,255,.07),
+        inset 0 1px 0 rgba(255,255,255,.07);
+
+    animation:
+        hostEnter 1s cubic-bezier(.2,.8,.2,1),
+        hostFloat 4s ease-in-out 1s infinite;
+}
+
+@keyframes hostEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scale(.65)
+            translateY(30px);
+
+        filter: blur(15px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+        filter: blur(0);
+    }
+}
+
+@keyframes hostFloat {
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+
+/* =========================================================
+   OFFICIAL GYMETRA ICON
+========================================================= */
+
+.logo {
+    position: relative;
+
+    width: 105px;
+    height: 105px;
+
+    margin-bottom: 13px;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 16px 20px
+            rgba(0,0,0,.40)
+        )
+        drop-shadow(
+            0 0 25px
+            rgba(179,112,255,.22)
+        );
+}
+
+
+/* pulse behind icon */
+
+.logo::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 8px;
+
+    z-index: -1;
+
+    border-radius: 30%;
+
+    background:
+        rgba(166,108,255,.25);
+
+    filter: blur(20px);
+
+    animation:
+        logoGlow 2s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+
+    50% {
+        transform: scale(1.35);
+        opacity: .35;
+    }
+}
+
+
+/* =========================================================
+   HOST TEXT
+========================================================= */
+
+.brand {
+    font-size: 18px;
+    font-weight: 800;
+
+    letter-spacing: 4px;
+}
+
+.host-label {
+    margin-top: 6px;
+
+    color: #766f80;
+
+    font-size: 7px;
+
+    letter-spacing: 4px;
+}
+
+.host-status {
+    margin-top: 13px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    color: #8e8798;
+
+    font-size: 8px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 12px var(--green);
+}
+
+
+/* =========================================================
+   CONNECTION LINES
+========================================================= */
+
+.connection {
+    position: absolute;
+
+    z-index: 4;
+
+    width: 190px;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(183,127,255,.18),
+            transparent
+        );
+
+    transform-origin: left center;
+}
+
+.c1 {
+    left: 17%;
+    top: 34%;
+
+    transform: rotate(28deg);
+}
+
+.c2 {
+    right: 17%;
+    top: 34%;
+
+    transform: rotate(152deg);
+}
+
+.c3 {
+    left: 18%;
+    bottom: 31%;
+
+    transform: rotate(-27deg);
+}
+
+.c4 {
+    right: 18%;
+    bottom: 31%;
+
+    transform: rotate(207deg);
+}
+
+
+/* =========================================================
+   DATA PACKETS
+========================================================= */
+
+.packet {
+    position: absolute;
+
+    z-index: 15;
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--purple-light);
+
+    box-shadow:
+        0 0 8px var(--purple-light),
+        0 0 18px var(--purple);
+
+    opacity: 0;
+}
+
+
+.packet.one {
+    animation:
+        packetOne 2.5s ease-in-out
+        2s infinite;
+}
+
+.packet.two {
+    animation:
+        packetTwo 2.8s ease-in-out
+        2.5s infinite;
+}
+
+.packet.three {
+    background: var(--green);
+
+    box-shadow:
+        0 0 8px var(--green),
+        0 0 18px var(--green);
+
+    animation:
+        packetThree 3s ease-in-out
+        3s infinite;
+}
+
+
+@keyframes packetOne {
+
+    0% {
+        left: 10%;
+        top: 29%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 49%;
+        top: 49%;
+        opacity: 0;
+    }
+}
+
+
+@keyframes packetTwo {
+
+    0% {
+        right: 10%;
+        top: 29%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        right: 49%;
+        top: 49%;
+        opacity: 0;
+    }
+}
+
+
+@keyframes packetThree {
+
+    0% {
+        left: 14%;
+        bottom: 26%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 49%;
+        bottom: 49%;
+        opacity: 0;
+    }
+}
+
+
+/* =========================================================
+   JUDGES
+========================================================= */
+
+.judges {
+    position: absolute;
+
+    z-index: 30;
+
+    bottom: 75px;
+
+    display: flex;
+    gap: 8px;
+}
+
+.judge {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 8px 12px;
+
+    border-radius: 100px;
+
+    background:
+        rgba(11, 9, 15, .88);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    color: #aaa3b2;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    opacity: 0;
+
+    transform:
+        translateY(15px)
+        scale(.9);
+}
+
+.judge.show {
+    animation:
+        judgeAppear .5s ease forwards;
+}
+
+.judge-dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 9px var(--green);
+}
+
+@keyframes judgeAppear {
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   SCORE RECEIVED
+========================================================= */
+
+.score-popup {
+    position: absolute;
+
+    z-index: 40;
+
+    right: 18px;
+    top: 48%;
+
+    padding: 14px 18px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(9, 8, 13, .91);
+
+    border:
+        1px solid
+        rgba(98,245,161,.20);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.45);
+
+    opacity: 0;
+
+    transform:
+        translateY(20px)
+        scale(.90);
+}
+
+.score-popup.show {
+    animation:
+        scoreAppear .6s
+        cubic-bezier(.2,.9,.2,1)
+        forwards;
+}
+
+.score-title {
+    color: #777080;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+}
+
+.score-number {
+    margin-top: 3px;
+
+    color: var(--green);
+
+    font-size: 29px;
+    font-weight: 800;
+
+    text-shadow:
+        0 0 20px
+        rgba(98,245,161,.25);
+}
+
+@keyframes scoreAppear {
+
+    60% {
+        opacity: 1;
+
+        transform:
+            translateY(-5px)
+            scale(1.06);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   LOADING UI
+========================================================= */
+
+.loading {
+    position: absolute;
+
+    z-index: 60;
+
+    bottom: 4px;
+
+    width: min(330px, 70vw);
+
+    text-align: center;
+}
+
+.percent {
+    margin-bottom: 10px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+.bar {
+    height: 3px;
+
+    overflow: hidden;
+
+    border-radius: 100px;
+
+    background:
+        rgba(255,255,255,.08);
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7c4dd5,
+            #ba7dff,
+            #62f5a1
+        );
+
+    box-shadow:
+        0 0 18px
+        rgba(180,117,255,.8);
+
+    transition:
+        width .08s linear;
+}
+
+.message {
+    margin-top: 11px;
+
+    color: #746d7d;
+
+    font-size: 8px;
+
+    letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   READY PAGE
+========================================================= */
+
+.ready {
+    position: fixed;
+    inset: 0;
+
+    display: grid;
+    place-items: center;
+
+    z-index: 10;
+
+    opacity: 0;
+
+    transform: scale(.94);
+
+    transition:
+        opacity 1.2s ease,
+        transform 1.2s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+.ready.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.ready-content {
+    text-align: center;
+}
+
+
+/* final icon */
+
+.ready-logo {
+    position: relative;
+
+    width: 125px;
+    height: 125px;
+
+    margin:
+        0 auto 32px;
+
+    animation:
+        readyFloat
+        3.5s ease-in-out infinite;
+}
+
+.ready-logo img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 20px 30px
+            rgba(0,0,0,.45)
+        )
+        drop-shadow(
+            0 0 35px
+            rgba(178,112,255,.22)
+        );
+}
+
+.ready-logo::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 15px;
+
+    z-index: -1;
+
+    border-radius: 50%;
+
+    background:
+        rgba(174,103,255,.3);
+
+    filter: blur(35px);
+}
+
+@keyframes readyFloat {
+
+    50% {
+        transform: translateY(-9px);
+    }
+}
+
+
+/* status */
+
+.ready-status {
+    margin-bottom: 14px;
+
+    color: var(--green);
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 4px;
+}
+
+.ready h1 {
+    font-size:
+        clamp(50px, 9vw, 100px);
+
+    line-height: .9;
+
+    letter-spacing: -5px;
+
+    background:
+        linear-gradient(
+            180deg,
+            white,
+            #d9cce7
+        );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    color: transparent;
+}
+
+.ready-description {
+    margin-top: 22px;
+
+    color: #746e7d;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+}
+
+
+/* =========================================================
+   REDIRECT STATUS
+========================================================= */
+
+.redirect {
+    width: 230px;
+
+    margin:
+        35px auto 0;
+}
+
+.redirect-text {
+    margin-bottom: 10px;
+
+    color: #5f5968;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+}
+
+.redirect-bar {
+    height: 2px;
+
+    overflow: hidden;
+
+    border-radius: 100px;
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+.redirect-progress {
+    width: 0%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--purple),
+            var(--purple-light)
+        );
+}
+
+.ready.show
+.redirect-progress {
+    animation:
+        redirectLoading
+        2.3s linear forwards;
+}
+
+@keyframes redirectLoading {
+
+    to {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.open-button {
+    margin-top: 28px;
+
+    padding:
+        13px 22px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.11);
+
+    border-radius: 100px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    color: white;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        border .25s ease;
+}
+
+.open-button:hover {
+    transform:
+        translateY(-2px);
+
+    background:
+        rgba(166,108,255,.15);
+
+    border-color:
+        rgba(190,145,255,.3);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .system {
+        transform: scale(.80);
+    }
+
+    .orbit {
+        width: 430px;
+        height: 430px;
+    }
+
+    .score-popup {
+        right: -5px;
+    }
+
+    .ready h1 {
+        letter-spacing: -3px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+     BACKGROUND
+======================================================= -->
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="ambient"></div>
+
+</div>
+
+
+
+<!-- ======================================================
+     GYMETRA LOADER
+======================================================= -->
+
+<div
+    class="loader"
+    id="loader">
+
+    <div class="system">
+
+
+        <!-- ORBIT -->
+
+        <div class="orbit"></div>
+
+
+
+        <!-- CONNECTION LINES -->
+
+        <div class="connection c1"></div>
+        <div class="connection c2"></div>
+        <div class="connection c3"></div>
+        <div class="connection c4"></div>
+
+
+
+        <!-- EVENTS -->
+
+        <div class="event floor">
+            FLOOR
+        </div>
+
+        <div class="event vault">
+            VAULT
+        </div>
+
+        <div class="event bars">
+            BARS
+        </div>
+
+        <div class="event beam">
+            BEAM
+        </div>
+
+        <div class="event rings">
+            RINGS
+        </div>
+
+        <div class="event highbar">
+            HIGH BAR
+        </div>
+
+
+
+        <!-- DATA -->
+
+        <div class="packet one"></div>
+        <div class="packet two"></div>
+        <div class="packet three"></div>
+
+
+
+        <!-- ==================================================
+             GYMETRA HOST
+        =================================================== -->
+
+        <div class="host">
+
+
+            <!-- YOUR APP STORE ICON -->
+
+            <div class="logo">
+
+                <img
+                    src="a.png"
+                    alt="Gymetra">
+
+            </div>
+
+
+
+            <div class="brand">
+                GYMETRA
+            </div>
+
+
+            <div class="host-label">
+                HOST
+            </div>
+
+
+            <div class="host-status">
+
+                <span class="status-dot"></span>
+
+                LOCAL MEET ACTIVE
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             JUDGES
+        =================================================== -->
+
+        <div class="judges">
+
+
+            <div
+                class="judge"
+                id="judge1">
+
+                <span class="judge-dot"></span>
+
+                JUDGE 01
+
+            </div>
+
+
+            <div
+                class="judge"
+                id="judge2">
+
+                <span class="judge-dot"></span>
+
+                JUDGE 02
+
+            </div>
+
+
+            <div
+                class="judge"
+                id="judge3">
+
+                <span class="judge-dot"></span>
+
+                JUDGE 03
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             SCORE
+        =================================================== -->
+
+        <div
+            class="score-popup"
+            id="scorePopup">
+
+            <div class="score-title">
+                SCORE RECEIVED
+            </div>
+
+            <div class="score-number">
+                9.425
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             LOADING
+        =================================================== -->
+
+        <div class="loading">
+
+
+            <div
+                class="percent"
+                id="percent">
+
+                0%
+
+            </div>
+
+
+            <div class="bar">
+
+                <div
+                    class="progress"
+                    id="progress">
+                </div>
+
+            </div>
+
+
+            <div
+                class="message"
+                id="message">
+
+                INITIALIZING GYMETRA
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- ======================================================
+     SECOND SCREEN
+======================================================= -->
+
+<main
+    class="ready"
+    id="ready">
+
+    <div class="ready-content">
+
+
+        <!-- ICON -->
+
+        <div class="ready-logo">
+
+            <img
+                src="a.png"
+                alt="Gymetra">
+
+        </div>
+
+
+
+        <!-- STATUS -->
+
+        <div class="ready-status">
+
+            ● SYSTEM ONLINE
+
+        </div>
+
+
+
+        <!-- TITLE -->
+
+        <h1>
+
+            MEET<br>
+            READY.
+
+        </h1>
+
+
+
+        <div class="ready-description">
+
+            HOST • JUDGES • LIVE RESULTS
+
+        </div>
+
+
+
+        <!-- REDIRECT -->
+
+        <div class="redirect">
+
+            <div class="redirect-text">
+
+                OPENING GYMETRA MEETS
+
+            </div>
+
+            <div class="redirect-bar">
+
+                <div
+                    class="redirect-progress">
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- USER CAN ENTER EARLY -->
+
+        <button
+            class="open-button"
+            id="openButton">
+
+            OPEN MEET
+
+        </button>
+
+
+    </div>
+
+</main>
+
+
+
+<script>
+
+/* =========================================================
+   CONFIGURATION
+
+   Si algún día quieres cambiar la página,
+   solo tienes que cambiar esta línea.
+========================================================= */
+
+const MEETS_URL =
+    "https://gymetra.net/meets/";
+
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const loader =
+    document.getElementById("loader");
+
+const ready =
+    document.getElementById("ready");
+
+const progress =
+    document.getElementById("progress");
+
+const percent =
+    document.getElementById("percent");
+
+const message =
+    document.getElementById("message");
+
+const judge1 =
+    document.getElementById("judge1");
+
+const judge2 =
+    document.getElementById("judge2");
+
+const judge3 =
+    document.getElementById("judge3");
+
+const scorePopup =
+    document.getElementById("scorePopup");
+
+const openButton =
+    document.getElementById("openButton");
+
+
+
+/* =========================================================
+   LOADING VALUE
+========================================================= */
+
+let value = 0;
+
+
+
+/* =========================================================
+   BUTTON
+
+   Permite entrar inmediatamente.
+========================================================= */
+
+openButton.onclick = function () {
+
+    window.location.href =
+        MEETS_URL;
+
+};
+
+
+
+/* =========================================================
+   FAKE BOOT SEQUENCE
+========================================================= */
+
+const loading =
+    setInterval(function () {
+
+
+        value++;
+
+
+
+        /* ---------------------------------
+           UPDATE PROGRESS
+        ---------------------------------- */
+
+        percent.textContent =
+            value + "%";
+
+        progress.style.width =
+            value + "%";
+
+
+
+        /* ---------------------------------
+           HOST
+        ---------------------------------- */
+
+        if (value === 10) {
+
+            message.textContent =
+                "STARTING HOST";
+
+        }
+
+
+
+        /* ---------------------------------
+           MEET
+        ---------------------------------- */
+
+        if (value === 20) {
+
+            message.textContent =
+                "LOADING MEET";
+
+        }
+
+
+
+        /* ---------------------------------
+           JUDGE 1
+        ---------------------------------- */
+
+        if (value === 32) {
+
+            message.textContent =
+                "DISCOVERING JUDGES";
+
+            judge1.classList.add(
+                "show"
+            );
+
+        }
+
+
+
+        /* ---------------------------------
+           JUDGE 2
+        ---------------------------------- */
+
+        if (value === 45) {
+
+            message.textContent =
+                "JUDGE CONNECTED";
+
+            judge2.classList.add(
+                "show"
+            );
+
+        }
+
+
+
+        /* ---------------------------------
+           JUDGE 3
+        ---------------------------------- */
+
+        if (value === 58) {
+
+            judge3.classList.add(
+                "show"
+            );
+
+            message.textContent =
+                "SYNCING MEET DATA";
+
+        }
+
+
+
+        /* ---------------------------------
+           SCORE
+        ---------------------------------- */
+
+        if (value === 72) {
+
+            message.textContent =
+                "RECEIVING SCORES";
+
+            scorePopup.classList.add(
+                "show"
+            );
+
+        }
+
+
+
+        /* ---------------------------------
+           RESULTS
+        ---------------------------------- */
+
+        if (value === 87) {
+
+            message.textContent =
+                "PREPARING LIVE RESULTS";
+
+        }
+
+
+
+        /* ---------------------------------
+           ALMOST READY
+        ---------------------------------- */
+
+        if (value === 95) {
+
+            message.textContent =
+                "FINALIZING MEET";
+
+        }
+
+
+
+        /* =================================================
+           100%
+        ================================================= */
+
+        if (value >= 100) {
+
+
+            clearInterval(
+                loading
+            );
+
+
+            percent.textContent =
+                "100%";
+
+
+            progress.style.width =
+                "100%";
+
+
+            message.textContent =
+                "MEET READY";
+
+
+
+            /* ---------------------------------
+               SHOW SECOND SCREEN
+            ---------------------------------- */
+
+            setTimeout(function () {
+
+
+                loader.classList.add(
+                    "hide"
+                );
+
+
+                ready.classList.add(
+                    "show"
+                );
+
+
+            }, 500);
+
+
+
+            /* ---------------------------------
+               REMOVE LOADER
+            ---------------------------------- */
+
+            setTimeout(function () {
+
+
+                loader.remove();
+
+
+            }, 1700);
+
+
+
+            /* ---------------------------------
+               GO TO GYMETRA MEETS
+            ---------------------------------- */
+
+            setTimeout(function () {
+
+
+                window.location.href =
+                    MEETS_URL;
+
+
+            }, 3000);
+
+
+        }
+
+
+    }, 45);
+
+</script>
+
+
+</body>
+</html>
